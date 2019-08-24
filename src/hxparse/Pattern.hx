@@ -1,5 +1,7 @@
 package hxparse;
 
+import hxparse.Charset;
+
 enum Pattern {
 	Empty;
 	Match( c : Charset );
