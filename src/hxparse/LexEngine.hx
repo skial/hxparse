@@ -1,5 +1,7 @@
 package hxparse;
 
+import hxparse.Pattern;
+
 /**
 	LexEngine handles pattern parsing and state transformation.
 
@@ -424,48 +426,5 @@ class LexEngine {
 		}
 		if (pDepth != 0) throw 'Found unclosed parenthesis while parsing "$pattern"';
 		return {pattern:r, pos: i};
-	}
-}
-
-private enum Pattern {
-	Empty;
-	Match( c : Charset );
-	Star( p : Pattern );
-	Plus( p : Pattern );
-	Next( p1 : Pattern, p2 : Pattern );
-	Choice( p1 : Pattern, p2 : Pattern );
-	Group ( p : Pattern );
-}
-
-@:structInit private class CharRange {
-   public var min:Int;
-   public var max:Int;
-   public function new(min,max) {
-      this.min = min;
-      this.max = max;
-   }
-}
-private typedef Charset = Array<CharRange>;
-
-private class Node {
-	public var id : Int;
-	public var pid : Int;
-	public var trans : Array<{ chars : Charset, n : Node }>;
-	public var epsilon : Array<Node>;
-	public function new(id, pid) {
-		this.id = id;
-		this.pid = pid;
-		trans = [];
-		epsilon = [];
-	}
-}
-
-private class Transition {
-	public var chars : Charset;
-	public function new(chars) {
-		this.chars = chars;
-	}
-	public function toString() {
-		return Std.string(chars);
 	}
 }
